@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import './question.dart';
+import './quiz.dart';
+import './rezult.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,9 +15,28 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final _questions = const [
+    {
+      'questionText': 'What\'s your favourite color?',
+      'answers': ['Black', 'Red', 'green', 'Blue'],
+    },
+    {
+      'questionText': 'What\'s your favourite animal?',
+      'answers': ['Rabbit', 'Cat', 'Lion', 'Snake'],
+    },
+    {
+      'questionText': 'What\'s your favourite Teacher?',
+      'answers': ['Ali', 'Ahmed', 'Fatima', 'Sobia'],
+    },
+  ];
   var _questionindex = 0;
 
   void _questionAnswers() {
+    if (_questionindex < _questions.length) {
+      print("we have more quesions!");
+    } else {
+      print('Sorry dont have more questions! ');
+    }
     setState(() {
       _questionindex = _questionindex + 1;
     });
@@ -26,38 +46,19 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      'What\'s your favourite color',
-      'What\'s your Favourite animal',
-    ];
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('My First Flutter App'),
-        ),
-        body: Column(
-          children: [
-            Question(
-              questions[_questionindex],
-            ),
-            RaisedButton(
-              child: Text('Answwer 1'),
-              onPressed: _questionAnswers,
-            ),
-            RaisedButton(
-              child: Text('Answwer 2'),
-              onPressed: () => print('Answer 2 chosen'),
-            ),
-            RaisedButton(
-              child: Text('Answwer 3'),
-              onPressed: () {
-                print('Answer 3 chosen');
-              },
-            ),
-          ],
-        ),
-      ),
+          appBar: AppBar(
+            title: Text('My First Flutter App'),
+          ),
+          body: _questionindex < _questions.length
+              ? Quiz(
+                  questionAnswer: _questionAnswers,
+                  questionIndex: _questionindex,
+                  questions: _questions,
+                )
+              : Rezult()),
     );
   }
 }
